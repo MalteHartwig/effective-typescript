@@ -1,7 +1,18 @@
 import React, { useEffect } from 'react';
 import { BulkProduct, UnitProduct, Product, isBulk, isUnit } from '../../redux/types';
 
-export const UnconnectedProducts = (props: any) => {
+export type ProductsStateProps = {
+  products: Product[];
+};
+
+export type ProductsDispatchProps = {
+  loadProducts: () => any;
+};
+
+export type ProductsProps = 
+  ProductsStateProps & ProductsDispatchProps & { title: string }
+
+export const UnconnectedProducts = (props: ProductsProps) => {
   useEffect(
     () => {
       const refresh = setInterval(props.loadProducts, 60000);

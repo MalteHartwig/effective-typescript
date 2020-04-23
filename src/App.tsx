@@ -6,10 +6,7 @@ function App() {
   return (
     <>
       <Login />
-      <Products 
-        randomProp="so random" 
-        onLogout={() => 'What happens if we pass this in? Does it override the actual logout method?'}
-      />
+      <Products title="I have the best products" />
     </>
   );
 }

@@ -39,6 +39,14 @@ A later commit will deal with small changes to reduce clutter in tests and util 
     
     `if (isBulk(product)) label = renderBulk(product)`
 
+### Add type to props of `Product` component
+
+The product component's props are currently not typed at all, hence we do not have any compiler support. This might seem contrived, but can easily happen if a formerly locally used components without strong typing (as they are only used internally) is made public to be used in multiple places. Adding state and dispatch props as we did for `Login` immediately shows several comiler errors:
+1. `mapStateToProps` wrongly sets `cart` instead of `products`.
+2. `randomProp` in `App.tsx` is another example for obsolete code.
+3. `App.tsx` tries to override `onLogout`. This could interfere with the dispatch prop and is now flagged by the compiler.
+4. `title` is supposed to be an "OwnProp" to be passed when creating the component. We have to merge `{ title: string }` to the `ProductProps` which will cause the compiler to flag the missing prop in `App.tsx`.
+
 ## Further reading
 * [TypeScript Advanced Types](https://www.typescriptlang.org/docs/handbook/advanced-types.html) explains basic ways to create new types from existing ones, for example Union Types, Literal Types, and Type Guards.
 * [TypeScript Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html) are another way to modify existing types. Examples are `Pick`, `Partial`, and `ReturnType`.
