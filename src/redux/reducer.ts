@@ -32,7 +32,6 @@ const handleLoadProducts = (state: MainState) => {
 
 export function mainReducer(
   state: MainState = {
-    environment: 'DEV',
     user: undefined,
     cart: [],
     products: [],

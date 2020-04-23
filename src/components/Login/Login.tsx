@@ -2,11 +2,16 @@ import React, { useContext, useState, ChangeEvent } from 'react';
 import { EnvironmentContext } from '../../context/environment';
 import { User } from '../../redux/types';
 
-export type LoginProps = {
+export type LoginStateProps = {
   user?: User;
+};
+
+export type LoginDispatchProps = {
   onLogin: (user: User) => any;
   onLogout: () => any;
 };
+
+export type LoginProps = LoginStateProps & LoginDispatchProps;
 
 export const UnconnectedLogin = (props: LoginProps) => {
   const environment = useContext(EnvironmentContext);

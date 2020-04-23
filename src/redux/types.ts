@@ -1,5 +1,3 @@
-import { Environment } from "../context/environment";
-
 export enum ProductType {
   BULK,
   UNIT,
@@ -35,7 +33,6 @@ export type User = {
 }
 
 export type MainState = {
-  environment: Environment;
   user: undefined | User;
   cart: CartItem[];
   products: Product[];
