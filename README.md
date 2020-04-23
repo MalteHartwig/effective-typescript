@@ -11,6 +11,13 @@ The functions mapping state and dispatch to `LoginProps` do not have explicitly 
 2. The better solution is to split the definition of `LoginProps` in separate types, joining them together afterwards. `LoginStateProps` and `LoginDispatchProps` can then serve as specific return types for the mappers.
 3. Realising that `environment` is now injected via context, we can proceed to delete it from the redux state altogether!
 
+### Fix type of `user` prop of `Login` component
+
+After removing the obsolete `environment` prop, it becomes obvious that `mapStateToProps` lacks the mapping for the `user` props. The compiler does not pick up on this because of a common misunderstanding around TypeScript's optional parameters: `user?: User`.
+1. The `Login` component asks for the currently logged in user to toggle between login and logout. It does so by making the prop optional by adding a `?` to the prop name. Unlike in languages like Kotlin, though, this does not affect nullability.
+2. Instead, it means that you do not need to specify the prop. Hence, the compiler does not giving us an error in the mapper.
+3. Let's change `user` to a proper nullable type: `user: User | undefined`. This will trigger the desired compile error. Note that you might still pass `undefined` to the prop.
+
 ## Further reading
 * [TypeScript Advanced Types](https://www.typescriptlang.org/docs/handbook/advanced-types.html) explains basic ways to create new types from existing ones, for example Union Types, Literal Types, and Type Guards.
 * [TypeScript Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html) are another way to modify existing types. Examples are `Pick`, `Partial`, and `ReturnType`.

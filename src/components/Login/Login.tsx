@@ -3,7 +3,7 @@ import { EnvironmentContext } from '../../context/environment';
 import { User } from '../../redux/types';
 
 export type LoginStateProps = {
-  user?: User;
+  user: User | undefined;
 };
 
 export type LoginDispatchProps = {

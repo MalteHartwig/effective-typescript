@@ -5,6 +5,7 @@ import { login, logout } from '../../redux/actions';
 import { UnconnectedLogin, LoginStateProps, LoginDispatchProps } from './Login';
 
 const mapStateToProps = (state: MainState): LoginStateProps => ({
+  user: state.user,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): LoginDispatchProps => ({
