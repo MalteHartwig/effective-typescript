@@ -1,16 +1,22 @@
 import React, { useEffect } from 'react';
 import { BulkProduct, UnitProduct, Product, isBulk, isUnit } from '../../redux/types';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { MainState } from '../../redux/types';
+import { loadProducts } from '../../redux/actions';
 
-export type ProductsStateProps = {
-  products: Product[];
-};
+const mapStateToProps = (state: MainState) => ({
+  products: state.products,
+});
 
-export type ProductsDispatchProps = {
-  loadProducts: () => any;
-};
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  loadProducts: () => dispatch(loadProducts()),
+});
 
 export type ProductsProps = 
-  ProductsStateProps & ProductsDispatchProps & { title: string }
+  ReturnType<typeof mapStateToProps> & 
+  ReturnType<typeof mapDispatchToProps> & 
+  { title: string }
 
 export const UnconnectedProducts = (props: ProductsProps) => {
   useEffect(
@@ -40,6 +46,11 @@ export const UnconnectedProducts = (props: ProductsProps) => {
     </>
   );
 }
+
+export const Products = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UnconnectedProducts);
 
 const renderBulk = (product: BulkProduct) => (
   `${product.name} has minimum size of ${product.minimum}`

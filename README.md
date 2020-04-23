@@ -56,6 +56,16 @@ The product component's props are currently not typed at all, hence we do not ha
 4. Next, delete the mock `Product` in the test and instead pass an object with just those two attributes: `renderPriceWithCurrency({ price: 6, currency: 'SGD' })`. This make the test more robust against changes to `Product`.
 5. In the future, any type with `price` and `currency` can also use this method without having to overload or copy it. Imaging a type `Invoice`, for example.
 
+### Derive prop types from Redux mapper methods
+
+There is a lot of opinion involved in structuring Redux applications. According to gospel, the non-connected component can easily be used without redux (which comes in handy when testing them). Though in order to properly type the props, we already split them into state, dispatch, and own props, which does not mean anything to the component without Redux.
+
+If, on the hand, we go the other way and tie in Redux even more, we can reduce the amount of redundancy further. See `Products` as an example:
+1. Copy the content of `index.tsx` into `Products.tsx`. Delete `index.tsx`. 
+2. Remove `ProductsStateProps` and `ProductsDispatchProps`.
+3. Instead, define `ProductsProps` as `ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & { title: string }`.
+4. Note the reduced redundancy: The properties and types of all props are only defined once by the mapper methods and do not need to be explicitly defined.
+
 ## Further reading
 * [TypeScript Advanced Types](https://www.typescriptlang.org/docs/handbook/advanced-types.html) explains basic ways to create new types from existing ones, for example Union Types, Literal Types, and Type Guards.
 * [TypeScript Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html) are another way to modify existing types. Examples are `Pick`, `Partial`, and `ReturnType`.
