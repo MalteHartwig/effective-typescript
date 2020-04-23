@@ -47,6 +47,15 @@ The product component's props are currently not typed at all, hence we do not ha
 3. `App.tsx` tries to override `onLogout`. This could interfere with the dispatch prop and is now flagged by the compiler.
 4. `title` is supposed to be an "OwnProp" to be passed when creating the component. We have to merge `{ title: string }` to the `ProductProps` which will cause the compiler to flag the missing prop in `App.tsx`.
 
+### Make util method parameters more flexible
+
+`renderPriceWithCurrency` accepts a `Product` as a parameter and renders some of its attributes. While neat in the code, it does introduce quite some boilerplate in the test and narrows down the use of the method to only `Product`.
+1. Let's change the parameter type to `{ price: number, currency: string }`.
+2. Miraculously, this does not result in compile errors. `Product`, while not an explicit sub type, does match all attributes of this type.
+3. To avoid defining the types of the attributes twice, we can use `Pick`: `Pick<Product, 'price' | 'currency'>`. This will result in the same type but will stay in sync in case we change `currency` to an enum, for example.
+4. Next, delete the mock `Product` in the test and instead pass an object with just those two attributes: `renderPriceWithCurrency({ price: 6, currency: 'SGD' })`. This make the test more robust against changes to `Product`.
+5. In the future, any type with `price` and `currency` can also use this method without having to overload or copy it. Imaging a type `Invoice`, for example.
+
 ## Further reading
 * [TypeScript Advanced Types](https://www.typescriptlang.org/docs/handbook/advanced-types.html) explains basic ways to create new types from existing ones, for example Union Types, Literal Types, and Type Guards.
 * [TypeScript Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html) are another way to modify existing types. Examples are `Pick`, `Partial`, and `ReturnType`.

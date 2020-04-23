@@ -49,4 +49,5 @@ const renderUnit = (product: UnitProduct) => (
   `${product.name} weighs ${product.weight}`
 );
 
-export const renderPriceWithCurrency = (product: Product) => `${product.currency} (${product.price})`;
+export const renderPriceWithCurrency = 
+  (product: Pick<Product, 'price' | 'currency'>) => `${product.currency} (${product.price})`;
