@@ -22,6 +22,11 @@ export type BulkProduct = Product & {
   minimum: number;
 }
 
+export const isBulk = (product: Product): product is BulkProduct =>
+  product.type === ProductType.BULK;
+export const isUnit = (product: Product): product is UnitProduct =>
+  "weight" in product;
+
 export type CartItem = {
   id: number;
   quantity: number;

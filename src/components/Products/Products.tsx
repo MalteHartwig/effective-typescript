@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BulkProduct, UnitProduct, Product, ProductType } from '../../redux/types';
+import { BulkProduct, UnitProduct, Product, isBulk, isUnit } from '../../redux/types';
 
 export const UnconnectedProducts = (props: any) => {
   useEffect(
@@ -15,15 +15,13 @@ export const UnconnectedProducts = (props: any) => {
     <>
       {props.title || 'Product List'}
       <ul>
-        {props.products.map((product: any) => {
+        {props.products.map((product: Product) => {
           let label;
-
-          if (product.type === ProductType.BULK)
-            label = renderBulk(product as BulkProduct)
-          else if (product.type === ProductType.UNIT)
-            label = renderUnit(product as UnitProduct)
-          else 
-            label = product.toString();
+          
+          if (isBulk(product))
+            label = renderBulk(product)
+          else if (isUnit(product))
+            label = renderUnit(product)
           
           return `${label} @ ${renderPriceWithCurrency(product)}`
         })}

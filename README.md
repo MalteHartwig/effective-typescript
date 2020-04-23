@@ -27,6 +27,18 @@ When testing components, test data tends to be more loosely typed in order to re
 
 A later commit will deal with small changes to reduce clutter in tests and util methods.
 
+### Use type guards to reduce the need for casting
+
+[Type Guards](https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-guards-and-differentiating-types) are a way to help with determining the exact type information of an object without the need for explicit casting.
+1. To reduce clutter in the `Products` component, we will add type guards to determine the type of a generic product:
+    - `const isBulk = (prod: Product): prod is BulkProduct => prod.type === ProductType.BULK;`
+    - `const isUnit = (prod: Product): prod is UnitProduct => "weight" in prod;`
+
+    Note that we use two different ways to determine the type, this is purely for illustration.
+2. When rendering `Products` we can ow shorten the type check and do not have to cast anymore: 
+    
+    `if (isBulk(product)) label = renderBulk(product)`
+
 ## Further reading
 * [TypeScript Advanced Types](https://www.typescriptlang.org/docs/handbook/advanced-types.html) explains basic ways to create new types from existing ones, for example Union Types, Literal Types, and Type Guards.
 * [TypeScript Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html) are another way to modify existing types. Examples are `Pick`, `Partial`, and `ReturnType`.
