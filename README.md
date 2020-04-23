@@ -18,6 +18,15 @@ After removing the obsolete `environment` prop, it becomes obvious that `mapStat
 2. Instead, it means that you do not need to specify the prop. Hence, the compiler does not giving us an error in the mapper.
 3. Let's change `user` to a proper nullable type: `user: User | undefined`. This will trigger the desired compile error. Note that you might still pass `undefined` to the prop.
 
+### Add types to mock data in tests
+
+When testing components, test data tends to be more loosely typed in order to reduce clutter. This might lead to similar problems as mentioned above.
+1. Adding `LoginProps` as type of `defaultProps` reveals that here, too, we still mapped `environment`.
+2. Moreover, adding `Partial<LoginProps>` to the parameter of `renderWithProps` reveals that the object passed in one test does not match the structure of `Login`'s props at all.
+3. Changing the value passed in the test to `{ user: { name: ... } }` fixes the compile errors.
+
+A later commit will deal with small changes to reduce clutter in tests and util methods.
+
 ## Further reading
 * [TypeScript Advanced Types](https://www.typescriptlang.org/docs/handbook/advanced-types.html) explains basic ways to create new types from existing ones, for example Union Types, Literal Types, and Type Guards.
 * [TypeScript Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html) are another way to modify existing types. Examples are `Pick`, `Partial`, and `ReturnType`.

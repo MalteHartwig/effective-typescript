@@ -1,16 +1,15 @@
 import { render, fireEvent } from "@testing-library/react";
-import { UnconnectedLogin } from "./Login";
+import { UnconnectedLogin, LoginProps } from "./Login";
 import React from "react";
 
 describe('Login component', () => {
-  const defaultProps = {
+  const defaultProps: LoginProps = {
     user: undefined,
     onLogin: jest.fn(),
     onLogout: jest.fn(),
-    environment: 'much obsolescence',
   }
 
-  const renderWithProps = (props?: any) => 
+  const renderWithProps = (props?: Partial<LoginProps>) => 
     render(<UnconnectedLogin { ...defaultProps } { ...props } />)
   
   afterEach(() => jest.resetAllMocks());
@@ -24,8 +23,10 @@ describe('Login component', () => {
 
   it('logout button calls call back', async () => {
     const component = renderWithProps({
-      name: 'MAWA Man',
-      isSuperUser: 'yes',
+      user: {
+        name: 'MAWA Man',
+        isSuperUser: true,
+      }
     });
     const logoutButton = await component.findByLabelText('Logout');
     fireEvent.click(logoutButton);
